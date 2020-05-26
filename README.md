@@ -1,5 +1,6 @@
 Week 11 Express Homework - Note Taker
-
+https://git.heroku.com/bremini-notetaker.git
+https://bremini-notetaker.herokuapp.com/notes
 The note taker is an application which enables users to write, save and delete notes.
 
 Homework criteria:
