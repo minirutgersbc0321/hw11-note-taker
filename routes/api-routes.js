@@ -8,9 +8,10 @@ module.exports = function (app) {
   });
 
   app.post("/api/notes", function (req, res) {
-    let noteId = uuid();
+    console.log(req.body);
+    // let noteId = uuid();
     let newNote = {
-      id: noteId,
+      //id: noteId,
       title: req.body.title,
       text: req.body.text,
     };
