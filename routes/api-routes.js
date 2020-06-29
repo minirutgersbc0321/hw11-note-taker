@@ -1,54 +1,32 @@
-const db = require("../db/db.json");
-const fs = require("fs");
-// const uuid = require("uuid/v4");
+// Require db
+const noteData = require("../db/db.json");
 
+// Routes
 module.exports = function (app) {
-  app.get("/api/notes", function (req, res) {
-    res.send(db);
+  // Displays all notes in json format
+  app.get("/api/notes", (req, res) => {
+    res.json(noteData);
   });
 
-  app.post("/api/notes", function (req, res) {
-    console.log(req.body);
-    // let noteId = uuid();
-    let newNote = {
-      //id: noteId,
-      title: req.body.title,
-      text: req.body.text,
-    };
-
-    fs.readFile("./db/db.json", "utf8", (err, data) => {
-      if (err) throw err;
-
-      const allNotes = JSON.parse(data);
-
-      allNotes.push(newNote);
-
-      fs.writeFile("./db/db.json", JSON.stringify(allNotes, null, 2), (err) => {
-        if (err) throw err;
-        res.send(db);
-        console.log("Note created!");
-      });
-    });
+  // Post new note
+  app.post("/api/notes", (req, res) => {
+    noteData.push(req.body);
+    res.json(noteData);
   });
 
+  // Delete note
   app.delete("/api/notes/:id", (req, res) => {
     let noteId = req.params.id;
+    let removeIndex;
 
-    fs.readFile("./db/db.json", "utf8", (err, data) => {
-      if (err) throw err;
+    for (let i = 0; i < noteData.length; i++) {
+      if (noteData[i].id === noteId) {
+        removeIndex = i;
+      }
+    }
 
-      const allNotes = JSON.parse(data);
-      const newAllNotes = allNotes.filter((note) => note.id != noteId);
+    noteData.splice(removeIndex, 1);
 
-      fs.writeFile(
-        "./db/db.json",
-        JSON.stringify(newAllNotes, null, 2),
-        (err) => {
-          if (err) throw err;
-          res.send(db);
-          console.log("Note deleted!");
-        }
-      );
-    });
+    res.json(noteData);
   });
 };
