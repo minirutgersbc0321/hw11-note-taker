@@ -4,6 +4,9 @@ var $saveNoteBtn = $(".save-note");
 var $newNoteBtn = $(".new-note");
 var $noteList = $(".list-container .list-group");
 
+// Id to be assigned to notes
+var noteId = 1;
+
 // activeNote is used to keep track of the note in the textarea
 var activeNote = {};
 
@@ -17,6 +20,8 @@ var getNotes = function () {
 
 // A function for saving a note to the db
 var saveNote = function (note) {
+  note.id = noteId;
+  noteId++;
   return $.ajax({
     url: "/api/notes",
     data: note,
